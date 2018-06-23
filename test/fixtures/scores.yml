@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player: one
+  frame: one
+  team: one
+  game: one
+  points: 1
+
+two:
+  player: two
+  frame: two
+  team: two
+  game: two
+  points: 1
