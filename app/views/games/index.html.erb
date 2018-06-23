@@ -13,7 +13,7 @@
               <% team.players.each do |player| %>
                 <div class="player">
                   <bold>Player: <%= player.first_name%> "<i><%= player.nickname %></i>" <%=player.last_name%> </bold>
-                  <%= render partial: "shared/frames", locals: { frames: frames } %>
+                  <%= render partial: "shared/frames", locals: { frames: frames, player: player, game: game, team: team } %>
               <% end %>
             </div>
           </div>
