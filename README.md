@@ -1,24 +1,32 @@
-# README
+## Endpoints
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Games
 
-Things you may want to cover:
+  `games/` - index
+  `games/:id` - show
 
-* Ruby version
+# Players
 
-* System dependencies
+  `players/` - index
+  `players/:id` - show
 
-* Configuration
+# Teams
 
-* Database creation
+  `teams/` - index
+  `teams/:id` - show
 
-* Database initialization
+# Scores
 
-* How to run the test suite
+  `scores/` - index
+  `/scores/game_scores` - index of scores for a game
+    - Requires: game_id
 
-* Services (job queues, cache servers, search engines, etc.)
+  `/scores/team_scores` - index of scores for a team
+    - Requires: team_id
 
-* Deployment instructions
-
-* ...
+  <!-- `player_score` - show
+    Requires:
+      - player_id
+      - team_id
+      - frame_id
+      - game_id -->
