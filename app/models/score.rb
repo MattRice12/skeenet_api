@@ -12,4 +12,10 @@ class Score < ApplicationRecord
   belongs_to :frame
   belongs_to :team
   belongs_to :game
+
+  validates :player_id, presence: true
+  validates :frame_id, presence: true
+  validates :team_id, presence: true
+  validates :game_id, presence: true
+  validates :points, presence: true
 end

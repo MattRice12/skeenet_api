@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
-  resources :scores, only: [:index] do
-    collection do
-      get "player_score", to: "scores#player_score"
-      get "game_scores", to: "scores#game_scores"
-      get "team_scores", to: "scores#team_scores"
-    end
+  resources :scores, only: [:index]
+
+  resources :teams do
+    get "scores", to: "scores#team_scores"
+    get "players", to: "teams#players"
   end
-  resources :teams
-  resources :games
+
+  resources :games do
+    get "scores", to: "scores#game_scores"
+    get "teams", to:  "games#teams"
+  end
+
   resources :players
 
   root to: "games#index"
