@@ -2,16 +2,16 @@
 
 # Games
 
-  GET  `games/`
-  GET  `games/:id`
-  GET  `games/:game_id/teams`  - *all teams for a game*
+  - GET  `games/`
+  - GET  `games/:id`
+  - GET  `games/:game_id/teams`  - *all teams for a game*
 
 # Players
 
-  GET  `players/`
-  GET  `players/:id`
-  DELETE `players/:id`
-  POST `players/`
+  - GET  `players/`
+  - GET  `players/:id`
+  - DELETE `players/:id`
+- POST `players/`
   ```
       player: {
         :first_name -- *required*
@@ -24,7 +24,7 @@
       }
   ```
 
-  PUT `players/:id`
+  - PUT `players/:id`
   ```
       player: {
         :first_name
@@ -36,34 +36,34 @@
 
 # Teams
 
-  GET  `teams/`
-  GET  `teams/:id`
-  GET  `teams/:team_id/players`  - *all players for a team*
-  DELETE `teams/:id`
-  POST `teams/`
-    ```
+  - GET  `teams/`
+  - GET  `teams/:id`
+  - GET  `teams/:team_id/players`  - *all players for a team*
+  - DELETE `teams/:id`
+  - POST `teams/`
+  ```
       team: {
         :name   -- *required*
         :active
       }
-    ```
+  ```
 
-  PUT `teams/:id`
-    ```
+  - PUT `teams/:id`
+  ```
       team: {
         :name  
         :active
       }
-    ```
+  ```
 
 # Scores
 
-  GET  `scores/`
-  GET  `games/:game_id/scores` - *index of scores for a game*
-  GET  `teams/:team_id/scores` - *index of scores for a team*
-  DELETE `scores/:id`
-  POST `scores/`
-    ```
+  - GET  `scores/`
+  - GET  `games/:game_id/scores` - *index of scores for a game*
+  - GET  `teams/:team_id/scores` - *index of scores for a team*
+  - DELETE `scores/:id`
+  - POST `scores/`
+  ```
       score: {
         :player_id   -- *required*
         :frame_id    -- *required*
@@ -71,9 +71,9 @@
         :game_id     -- *required*
         :points      -- *required*
       }
-    ```
-  PUT `scores/:id`
-    ```
+  ```
+  - PUT `scores/:id`
+  ```
       score: {
         :player_id
         :frame_id
@@ -81,4 +81,4 @@
         :game_id  
         :points   
       }
-    ```
+  ```
