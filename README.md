@@ -11,7 +11,7 @@
   - GET  `players/`
   - GET  `players/:id`
   - DELETE `players/:id`
-- POST `players/`
+  - POST `players/`
   ```
       player: {
         :first_name -- *required*
@@ -72,6 +72,7 @@
         :points      -- *required*
       }
   ```
+
   - PUT `scores/:id`
   ```
       score: {
