@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   def index
-    @games = Game.all
+    @games   = Game.all.includes(players: :teams)
     @frames = Frame.all
 
     render json: {
@@ -15,7 +15,8 @@ class GamesController < ApplicationController
               last_name: player.last_name,
               nickname: player.nickname,
               email: player.email,
-              team_id: player.teams_id.select { |t_id| game.teams.pluck(:id).include?(t_id) }.first
+              team_id: player.team_ids.select { |t_id| game.teams.pluck(:id).include?(t_id) }.first,
+              scores: player.scores.where(game_id: game.id)
             }
           }
         }
@@ -29,7 +30,21 @@ class GamesController < ApplicationController
     game = Game.find_by(id: params.fetch(:id))
 
     render json: {
-      game: game
+      game:{
+        id: game.id,
+        number: game.number,
+        players: game.players.map { |player|
+          {
+            id: player.id,
+            first_name: player.first_name,
+            last_name: player.last_name,
+            nickname: player.nickname,
+            email: player.email,
+            team_id: player.team_ids.select { |t_id| game.teams.pluck(:id).include?(t_id) }.first,
+            scores: player.scores.where(game_id: game.id)
+          }
+        }
+      }
     }
   end
 
