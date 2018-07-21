@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   def index
-    @games   = Game.all.includes(players: :teams)
+    @games   = Game.all.includes(teams: [players: :teams])
     @frames = Frame.all
 
     render json: {
@@ -8,15 +8,20 @@ class GamesController < ApplicationController
         {
           id: game.id,
           number: game.number,
-          players: game.players.map { |player|
+          teams: game.teams.map { |team|
             {
-              id: player.id,
-              first_name: player.first_name,
-              last_name: player.last_name,
-              nickname: player.nickname,
-              email: player.email,
-              team_id: player.team_ids.select { |t_id| game.teams.pluck(:id).include?(t_id) }.first,
-              scores: player.scores.where(game_id: game.id)
+              id: team.id,
+              name: team.name,
+              active: team.active,
+              players: team.players.map {|player|
+                {
+                  id: player.id,
+                  first_name: player.first_name,
+                  last_name: player.last_name,
+                  nickname: player.nickname,
+                  email: player.email
+                }
+              }
             }
           }
         }
@@ -33,15 +38,21 @@ class GamesController < ApplicationController
       game:{
         id: game.id,
         number: game.number,
-        players: game.players.map { |player|
+        teams: game.teams.map { |team|
           {
-            id: player.id,
-            first_name: player.first_name,
-            last_name: player.last_name,
-            nickname: player.nickname,
-            email: player.email,
-            team_id: player.team_ids.select { |t_id| game.teams.pluck(:id).include?(t_id) }.first,
-            scores: player.scores.where(game_id: game.id)
+            id: team.id,
+            name: team.name,
+            active: team.active,
+            players: team.players.map {|player|
+              {
+                id: player.id,
+                first_name: player.first_name,
+                last_name: player.last_name,
+                nickname: player.nickname,
+                email: player.email,
+                scores: player.scores.where(game_id: game.id)
+              }
+            }
           }
         }
       }
