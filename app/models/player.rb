@@ -18,4 +18,8 @@ class Player < ApplicationRecord
   validates :last_name, presence: true
   validates :nickname, presence: true
   validates :email, presence: true
+
+  def teams_id
+    teams.pluck(:id)
+  end
 end

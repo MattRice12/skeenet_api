@@ -1,12 +1,28 @@
 class GamesController < ApplicationController
   def index
-    games = Game.all
-    frames = Frame.all
+    @games = Game.all
+    @frames = Frame.all
 
     render json: {
-      games: games,
-      frames: frames
+      games: @games.map { |game|
+        {
+          id: game.id,
+          number: game.number,
+          players: game.players.map { |player|
+            {
+              id: player.id,
+              first_name: player.first_name,
+              last_name: player.last_name,
+              nickname: player.nickname,
+              email: player.email,
+              team_id: player.teams_id.select { |t_id| game.teams.pluck(:id).include?(t_id) }.first
+            }
+          }
+        }
+      },
+      frames: @frames
     }
+
   end
 
   def show
