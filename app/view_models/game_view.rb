@@ -1,18 +1,28 @@
 class GameView
 
-  def initialize(games)
-    games.map { |game|
-      {
-        id: game.id,
-        number: game.number,
-        players: game.players.map { |player|
-          {
-            id: player.id,
-            first_name: player.first_name,
-            last_name: player.last_name,
-            nickname: player.nickname,
-            email: player.email,
-            team_id: player.team_ids.select { |t_id| game.teams.pluck(:id).include?(t_id) }.first
+  def initialize(game)
+    @game = {
+      id: game.id,
+      number: game.number,
+      teams: game.teams.map { |team|
+        {
+          id: team.id,
+          name: team.name,
+          active: team.active,
+          players: team.players.map { |player|
+            {
+              id: player.id,
+              first_name: player.first_name,
+              last_name: player.last_name,
+              nickname: player.nickname,
+              email: player.email,
+              scores: player.scores.where(game_id: game.id).map { |score|
+                {
+                  frame_id: score.frame_id,
+                  points: score.points
+                }
+              }
+            }
           }
         }
       }

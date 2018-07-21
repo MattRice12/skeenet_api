@@ -1,62 +1,13 @@
 class GamesController < ApplicationController
   def index
-    @games   = Game.all.includes(teams: [players: :teams])
-    @frames = Frame.all
+    games  = Game.all.includes(:teams)
 
-    render json: {
-      games: @games.map { |game|
-        {
-          id: game.id,
-          number: game.number,
-          teams: game.teams.map { |team|
-            {
-              id: team.id,
-              name: team.name,
-              active: team.active,
-              players: team.players.map {|player|
-                {
-                  id: player.id,
-                  first_name: player.first_name,
-                  last_name: player.last_name,
-                  nickname: player.nickname,
-                  email: player.email
-                }
-              }
-            }
-          }
-        }
-      },
-      frames: @frames
-    }
-
+    render json: games
   end
 
   def show
-    game = Game.find_by(id: params.fetch(:id))
-
-    render json: {
-      game:{
-        id: game.id,
-        number: game.number,
-        teams: game.teams.map { |team|
-          {
-            id: team.id,
-            name: team.name,
-            active: team.active,
-            players: team.players.map {|player|
-              {
-                id: player.id,
-                first_name: player.first_name,
-                last_name: player.last_name,
-                nickname: player.nickname,
-                email: player.email,
-                scores: player.scores.where(game_id: game.id)
-              }
-            }
-          }
-        }
-      }
-    }
+    game = Game.includes(teams: [players: :scores]).find_by(id: params.fetch(:id))
+    render json: GameView.new(game)
   end
 
   def teams
