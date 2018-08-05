@@ -10,18 +10,20 @@ class GameView
           name: team.name,
           active: team.active,
           players: team.players.map { |player|
+            player_scores = player.scores.where(game_id: game.id)
             {
               id: player.id,
               first_name: player.first_name,
               last_name: player.last_name,
               nickname: player.nickname,
               email: player.email,
-              scores: player.scores.where(game_id: game.id).map { |score|
+              scores: player_scores.map { |score|
                 {
                   frame_id: score.frame_id,
                   points: score.points
                 }
-              }
+              },
+              total_score: player_scores.sum(&:points)
             }
           }
         }
