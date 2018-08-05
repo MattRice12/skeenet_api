@@ -1,7 +1,7 @@
-Season.where(name: "Summer", year: 2018).first_or_create!
+season = Season.where(name: "Summer", year: 2018).first_or_create!
 
 2.times do |n|
-  Game.where(number: n).first_or_create!
+  Game.where(number: n, season_id: season.id).first_or_create!
 end
 
 10.times do |n|
