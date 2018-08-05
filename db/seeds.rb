@@ -1,3 +1,5 @@
+Season.where(name: "Summer", year: 2018).first_or_create!
+
 2.times do |n|
   Game.where(number: n).first_or_create!
 end
