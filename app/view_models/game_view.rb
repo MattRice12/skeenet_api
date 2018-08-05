@@ -21,7 +21,7 @@ class GameView
                 {
                   frame_id: score.frame_id,
                   points: score.points,
-                  running_total: player_scores.select {|ps| ps.frame_id < score.frame_id}.pluck(:points).sum
+                  prior_total: player_scores.select {|ps| ps.frame_id < score.frame_id}.pluck(:points).sum
                 }
               },
               total_score: player_scores.pluck(:points).sum
