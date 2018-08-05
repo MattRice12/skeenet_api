@@ -8,4 +8,6 @@ class Game < ApplicationRecord
 
   has_many :teams, through: :game_teams
   has_many :players, through: :teams
+
+  belongs_to :season
 end

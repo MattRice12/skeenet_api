@@ -25,6 +25,11 @@ class GameView
             }
           }
         }
+      },
+      season: {
+        id: game.season.id,
+        name: game.season.name,
+        year: game.season.year
       }
     }
   end
