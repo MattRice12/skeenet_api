@@ -23,7 +23,13 @@ class SeasonView
       id: season.id,
       name: season.name,
       year: season.year,
-      teams: team_scores
+      teams: team_scores.each_with_object({}) { |team, acc|
+        if acc[team["name"]]
+          acc[team["name"]].push({ "week_#{team["week"]}": team["total"] })
+        else
+          acc[team["name"]] = [{ "week_#{team["week"]}": team["total"] }]
+        end
+      }
     }
   end
 end

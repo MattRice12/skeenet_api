@@ -1,7 +1,7 @@
 season = Season.where(name: "Summer", year: 2018).first_or_create!
 
-8.times do |n|
-  Game.where(week: n, season_id: season.id).first_or_create!
+4.times do |n|
+  Game.where(week: n + 1, season_id: season.id).first_or_create!
 end
 
 10.times do |n|
@@ -39,7 +39,7 @@ game = Game.third
 Team.all.each do |team|
   team.players.each do |player|
     Frame.all.each do |frame|
-      Score.where(player_id: player.id, frame_id: frame.id, game_id: game.id, team_id: team.id, points: rand(0...90)).first_or_create!
+      Score.where(player_id: player.id, frame_id: frame.id, game_id: game.id, team_id: team.id, points: rand(15...40)).first_or_create!
     end
   end
 end
