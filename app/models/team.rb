@@ -10,4 +10,5 @@ class Team < ApplicationRecord
 
   has_many :players, through: :player_teams
   has_many :games, through: :game_teams
+
 end

@@ -30,16 +30,20 @@ class SeasonView
   private
 
   def team_scores_hash(team_scores)
-    team_scores.pluck("name").uniq.map do |name|
-      obj_team = team_scores.select { |team| team["name"] == name }
+    team_scores.pluck("name")
+               .uniq
+               .map { |name| build_scores(team_scores, name) }
+  end
 
-      obj_team.each_with_object({ name: name }) do |team, acc|
-        obj = { week: team["week"], scores: team["total"] }
-        if acc[:scores]
-          acc[:scores].push(obj)
-        else
-          acc[:scores] = [obj]
-        end
+  def build_scores(team_scores, name)
+    filteredTeams = team_scores.select { |team| team["name"] == name }
+
+    filteredTeams.each_with_object({ name: name }) do |team, acc|
+      obj = { week: team["week"], total: team["total"] }
+      if acc[:scores]
+        acc[:scores].push(obj)
+      else
+        acc[:scores] = [obj]
       end
     end
   end
