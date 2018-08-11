@@ -23,33 +23,24 @@ class SeasonView
       id: season.id,
       name: season.name,
       year: season.year,
-      teams: team_scores_obj_new(team_scores)
+      teams: team_scores_hash(team_scores)
     }
   end
 
   private
 
-  def team_scores_obj_new(team_scores)
-    team_scores.each_with_object({}) { |team, acc|
-      obj = { week: team["week"], score: team["total"] }
+  def team_scores_hash(team_scores)
+    team_scores.pluck("name").uniq.map do |name|
+      obj_team = team_scores.select { |team| team["name"] == name }
 
-      if acc.dig(team["id"], :scores)
-        acc[team["id"]][:scores].push(obj)
-      else
-        acc[team["id"]] = { name: team["name"], scores: [obj] }
+      obj_team.each_with_object({ name: name }) do |team, acc|
+        obj = { week: team["week"], scores: team["total"] }
+        if acc[:scores]
+          acc[:scores].push(obj)
+        else
+          acc[:scores] = [obj]
+        end
       end
-    }
-  end
-
-  def team_scores_obj_old(team_scores)
-    team_scores.each_with_object({}) { |team, acc|
-      obj = { "week_#{team["week"]}": team["total"] }
-
-      if acc[team["name"]]
-        acc[team["name"]].push(obj)
-      else
-        acc[team["name"]] = [obj]
-      end
-    }
+    end
   end
 end
