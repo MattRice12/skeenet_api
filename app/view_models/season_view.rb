@@ -23,14 +23,33 @@ class SeasonView
       id: season.id,
       name: season.name,
       year: season.year,
-      teams: team_scores.each_with_object({}) { |team, acc|
-        obj = { "week_#{team["week"]}": team["total"] }
-        if acc[team["name"]]
-          acc[team["name"]].push(obj)
-        else
-          acc[team["name"]] = [obj]
-        end
-      }
+      teams: team_scores_obj_new(team_scores)
+    }
+  end
+
+  private
+
+  def team_scores_obj_new(team_scores)
+    team_scores.each_with_object({}) { |team, acc|
+      obj = {"week_#{team["week"]}": team["total"] }
+
+      if acc.dig(team["id"], :scores)
+        acc[team["id"]][:scores].merge!(obj)
+      else
+        acc[team["id"]] = { name: team["name"], scores: obj }
+      end
+    }
+  end
+
+  def team_scores_obj_old(team_scores)
+    team_scores.each_with_object({}) { |team, acc|
+      obj = { "week_#{team["week"]}": team["total"] }
+
+      if acc[team["name"]]
+        acc[team["name"]].push(obj)
+      else
+        acc[team["name"]] = [obj]
+      end
     }
   end
 end
