@@ -8,7 +8,7 @@ end
   Frame.where(number: n).first_or_create!
 end
 
-thirskee = Team.where(name: "Thirskee Goats").first_or_create!
+thirskee = Team.where(name: "Thirskee Goatse").first_or_create!
 hollskee = Team.where(name: "Hollskeewood").first_or_create!
 jedi = Team.where(name: "The Jedi Skeeballion").first_or_create!
 droids = Team.where(name: "Balls of Steel").first_or_create!

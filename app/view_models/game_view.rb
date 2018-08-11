@@ -9,8 +9,6 @@ class GameView
           id: team.id,
           name: team.name,
           active: team.active,
-          # players: team.players.map { |player|
-            # player_scores = player.scores.where(game_id: game.id)
             players: sql_players(team).map { |player|
             player_scores = sql_player_scores(game, player)
             {
