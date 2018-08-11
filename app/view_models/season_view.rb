@@ -31,12 +31,12 @@ class SeasonView
 
   def team_scores_obj_new(team_scores)
     team_scores.each_with_object({}) { |team, acc|
-      obj = {"week_#{team["week"]}": team["total"] }
+      obj = { week: team["week"], score: team["total"] }
 
       if acc.dig(team["id"], :scores)
-        acc[team["id"]][:scores].merge!(obj)
+        acc[team["id"]][:scores].push(obj)
       else
-        acc[team["id"]] = { name: team["name"], scores: obj }
+        acc[team["id"]] = { name: team["name"], scores: [obj] }
       end
     }
   end
