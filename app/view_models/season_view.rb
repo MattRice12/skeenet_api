@@ -36,15 +36,29 @@ class SeasonView
   end
 
   def build_scores(team_scores, name)
-    filteredTeams = team_scores.select { |team| team["name"] == name }
+    filtered_teams = team_scores.select { |team| team["name"] == name }
+    total_arr = filtered_teams.pluck("total")
 
-    filteredTeams.each_with_object({ name: name }) do |team, acc|
-      obj = { week: team["week"], total: team["total"] }
-      if acc[:scores]
-        acc[:scores].push(obj)
-      else
-        acc[:scores] = [obj]
-      end
+    {
+      name: name,
+      average: average_score(total_arr),
+      best: best_score(total_arr),
+      scores: scores(filtered_teams)
+    }
+  end
+
+  def average_score(total_arr)
+    total_arr.sum / total_arr.size rescue 1
+  end
+
+  def best_score(total_arr)
+    total_arr.max rescue 0
+  end
+
+  def scores(teams)
+    teams.map do |team|
+      { week: team["week"], total: team["total"] }
     end
   end
+
 end
