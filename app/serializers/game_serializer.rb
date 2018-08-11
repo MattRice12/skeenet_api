@@ -1,5 +1,5 @@
 class GameSerializer < ActiveModel::Serializer
-  attributes :id, :number
+  attributes :id, :week
 
   has_many :teams
 

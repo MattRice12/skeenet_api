@@ -3,7 +3,7 @@ class GameView
   def initialize(game)
     @game = {
       id: game.id,
-      number: game.number,
+      week: game.week,
       teams: game.teams.map { |team|
         {
           id: team.id,
