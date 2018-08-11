@@ -7,6 +7,6 @@ class SeasonsController < ApplicationController
 
   def show
     season = Season.includes(:games).find_by(id: params.fetch(:id))
-    render json: season
+    render json: SeasonView.new(season)
   end
 end

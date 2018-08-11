@@ -6,7 +6,7 @@ class GamesController < ApplicationController
   end
 
   def show
-    game = Game.includes(teams: [players: :scores]).find_by(id: params.fetch(:id))
+    game = Game.find_by(id: params.fetch(:id))
     render json: GameView.new(game)
   end
 
