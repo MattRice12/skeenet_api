@@ -30,16 +30,17 @@ class SeasonView
   private
 
   def team_scores_hash(team_scores)
-    team_scores.pluck("name")
+    team_scores.pluck("id", "name")
                .uniq
-               .map { |name| build_scores(team_scores, name) }
+               .map { |id, name| build_scores(team_scores, id, name) }
   end
 
-  def build_scores(team_scores, name)
-    filtered_teams = team_scores.select { |team| team["name"] == name }
+  def build_scores(team_scores, id, name)
+    filtered_teams = team_scores.select { |team| [team["id"], team["name"]] == [id, name] }
     total_arr = filtered_teams.pluck("total")
 
     {
+      id: id,
       name: name,
       average: average_score(total_arr),
       best: best_score(total_arr),
