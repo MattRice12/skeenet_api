@@ -1,7 +1,7 @@
 class SeasonView
   def initialize(season)
     sql = <<-SQL
-      SELECT t.id, g.week, t.name, SUM(sc.points) as Total
+      SELECT t.id, g.week, g.id as game_id, t.name, SUM(sc.points) as Total
       FROM seasons as s
       JOIN games as g
       ON s.id = g.season_id
@@ -13,7 +13,7 @@ class SeasonView
       ON t.id = sc.team_id
       AND g.id = sc.game_id
       WHERE s.id = #{season.id}
-      GROUP BY 1, 2
+      GROUP BY 1, 2, 3
       ORDER BY 2;
     SQL
 
@@ -57,7 +57,7 @@ class SeasonView
 
   def scores(teams)
     teams.map do |team|
-      { week: team["week"], total: team["total"] }
+      { game_id: team["game_id"], week: team["week"], total: team["total"] }
     end
   end
 
