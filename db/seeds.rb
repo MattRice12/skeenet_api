@@ -4,7 +4,6 @@ season = Season.where(name: "Summer", year: 2018).first_or_create!
   Week.where(week_number: n + 1, season_id: season.id).first_or_create!
   2.times do |i|
     Game.create!(week_id: n + 1, season_id: season.id)
-    Rails.logger.warn("[Games] - Creating Game #{i} for Week #{n + 1}")
   end
 end
 
@@ -19,24 +18,22 @@ jedi = Team.where(name: "The Jedi Skeeballion").first_or_create!
 droids = Team.where(name: "Balls of Steel").first_or_create!
 
 t = [1,    3,    5,    7,    9,     11,     13,     15    ]
-h = [1, 2,       5, 6,       9, 10,         13, 14        ]
+h = [1,       4, 5,       8,    10,     12, 13,         16]
 j = [   2,    4,    6,    8,    10,     12,     14,     16]
-d = [      3, 4,       7, 8,        11, 12,         15, 16]
+d = [   2, 3,       6, 7,    9,     11,         14, 15    ]
 
-Week.all.each do |week|
-  Game.all.each do |game|
-    if t.include?(game.id)
-      GameTeam.where(team_id: thirskee.id, game_id: game.id).first_or_create!
-    end
-    if h.include?(game.id)
-      GameTeam.where(team_id: hollskee.id, game_id: game.id).first_or_create!
-    end
-    if j.include?(game.id)
-      GameTeam.where(team_id: jedi.id, game_id: game.id).first_or_create!
-    end
-    if d.include?(game.id)
-      GameTeam.where(team_id: droids.id, game_id: game.id).first_or_create!
-    end
+Game.all.each do |game|
+  if t.include?(game.id)
+    GameTeam.where(team_id: thirskee.id, game_id: game.id).first_or_create!
+  end
+  if h.include?(game.id)
+    GameTeam.where(team_id: hollskee.id, game_id: game.id).first_or_create!
+  end
+  if j.include?(game.id)
+    GameTeam.where(team_id: jedi.id, game_id: game.id).first_or_create!
+  end
+  if d.include?(game.id)
+    GameTeam.where(team_id: droids.id, game_id: game.id).first_or_create!
   end
 end
 
