@@ -71,11 +71,11 @@ end
   PlayerTeam.where(team_id: droids.id, player_id: player.id).first_or_create!
 end
 
-Game.all.each do |game|
-  Team.all.each do |team|
+Game.includes(teams: :players).all.each do |game|
+  game.teams.each do |team|
     team.players.each do |player|
       Frame.all.each do |frame|
-        Score.where(player_id: player.id, frame_id: frame.id, game_id: game.id, team_id: team.id, points: rand(15...40)).first_or_create!
+        Score.create!(player_id: player.id, frame_id: frame.id, game_id: game.id, team_id: team.id, points: rand(15...40))
       end
     end
   end
