@@ -10,4 +10,5 @@ class Game < ApplicationRecord
   has_many :players, through: :teams
 
   belongs_to :season
+  belongs_to :week
 end

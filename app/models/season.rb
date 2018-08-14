@@ -1,4 +1,5 @@
 class Season < ApplicationRecord
+  has_many :weeks
   has_many :games
   has_many :teams, through: :games
 

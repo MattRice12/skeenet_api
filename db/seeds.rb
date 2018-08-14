@@ -1,8 +1,13 @@
 season = Season.where(name: "Summer", year: 2018).first_or_create!
 
-10.times do |n|
-  Game.where(week: n + 1, season_id: season.id).first_or_create!
+8.times do |n|
+  Week.where(week_number: n + 1, season_id: season.id).first_or_create!
+  2.times do |i|
+    Game.create!(week_id: n + 1, season_id: season.id)
+    Rails.logger.warn("[Games] - Creating Game #{i} for Week #{n + 1}")
+  end
 end
+
 
 10.times do |n|
   Frame.where(number: n).first_or_create!
@@ -12,6 +17,30 @@ thirskee = Team.where(name: "Thirskee Goatse").first_or_create!
 hollskee = Team.where(name: "Hollskeewood").first_or_create!
 jedi = Team.where(name: "The Jedi Skeeballion").first_or_create!
 droids = Team.where(name: "Balls of Steel").first_or_create!
+
+t = [1,    3,    5,    7,    9,     11,     13,     15    ]
+h = [1, 2,       5, 6,       9, 10,         13, 14        ]
+j = [   2,    4,    6,    8,    10,     12,     14,     16]
+d = [      3, 4,       7, 8,        11, 12,         15, 16]
+
+Week.all.each do |week|
+  Game.all.each do |game|
+    if t.include?(game.id)
+      GameTeam.where(team_id: thirskee.id, game_id: game.id).first_or_create!
+    end
+    if h.include?(game.id)
+      GameTeam.where(team_id: hollskee.id, game_id: game.id).first_or_create!
+    end
+    if j.include?(game.id)
+      GameTeam.where(team_id: jedi.id, game_id: game.id).first_or_create!
+    end
+    if d.include?(game.id)
+      GameTeam.where(team_id: droids.id, game_id: game.id).first_or_create!
+    end
+  end
+end
+
+
 
 matt = Player.where(first_name: "Matt", last_name: "Rice", nickname: "Coldsnacky", email: "matt@example.com").first_or_create!
 travis = Player.where(first_name: "Travis", last_name: "Czerw", nickname: "HAM", email: "travis@example.com").first_or_create!
@@ -29,13 +58,6 @@ mace = Player.where(first_name: "Mace", last_name: "Windu", nickname: "Mace Skee
 c3po = Player.where(first_name: "C", last_name: "3PO", nickname: "Skee3PO", email: "3po@example.com").first_or_create!
 r2d2 = Player.where(first_name: "R2", last_name: "D2", nickname: "R2Skee2", email: "lowballa@example.com").first_or_create!
 bb8 = Player.where(first_name: "BB", last_name: "8", nickname: "SkeeSkee8", email: "rollout@example.com").first_or_create!
-
-
-Game.all.each do |game|
-  Team.all.each do |team|
-    GameTeam.where(team_id: team.id, game_id: game.id).first_or_create!
-  end
-end
 
 [dick, tom, jerry].each do |player|
   PlayerTeam.where(team_id: hollskee.id, player_id: player.id).first_or_create!

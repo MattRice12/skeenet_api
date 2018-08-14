@@ -3,7 +3,6 @@ class GameView
   def initialize(game)
     @game = {
       id: game.id,
-      week: game.week,
       teams: game.teams.map { |team|
         {
           id: team.id,
@@ -28,6 +27,11 @@ class GameView
             }
           }
         }
+      },
+      week: {
+        id: game.week.id,
+        season_id: game.week.season_id,
+        week_number: game.week.week_number
       },
       season: {
         id: game.season.id,

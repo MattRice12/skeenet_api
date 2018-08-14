@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :weeks
   resources :seasons
   # get '/seasons/current_season', to: "seasons#show", params: {id: :current_season }
   resources :scores, only: [:index]
