@@ -11,16 +11,22 @@ class GamesController < ApplicationController
   end
 
   def create
-    game = Game.new
+    team_ids = game_params.fetch(:team_ids).split(",").map(&:to_i)
+    game = current_weeks_games.find { |g| g.teams.pluck(:id).sort == team_ids.sort }
 
-    game.team_ids = game_params.fetch(:team_ids).split(",")
-    game.season = Season.last
-    game.week = Week.last
+    if game.present?
+      render json: GameView.new(game)
+    else
+      game = Game.new
+      game.team_ids = team_ids
+      game.season = Season.last
+      game.week = Week.last
 
-    if game.save
-      return render json: GameView.new(game)
+      if game.save
+        return render json: GameView.new(game)
+      end
+      render json: { error: game.errors.full_messages, status: 422 }
     end
-    render json: { error: game.errors.full_messages, status: 422 }
   end
 
   def teams
@@ -35,5 +41,9 @@ class GamesController < ApplicationController
 
   def game_params
     params.require(:game).permit(:team_ids)
+  end
+
+  def current_weeks_games
+    Game.includes(:teams).where(season_id: Season.last.id, week_id: Week.last.id)
   end
 end
