@@ -1,8 +1,12 @@
 class GamesController < ApplicationController
   def index
-    games  = Game.all.includes(:teams)
+    begin
+      games  = Game.all.includes(:teams)
 
-    render json: games
+      render json: games
+    rescue
+      render json: { error: INDEX_ERROR, status: 500 }
+    end
   end
 
   def show
@@ -12,6 +16,10 @@ class GamesController < ApplicationController
 
   def create
     team_ids = game_params.fetch(:team_ids).split(",").map(&:to_i)
+    if team_ids.length < 2
+      return render json: { error: "You must select two teams to start a game.", status: 422 }
+    end
+
     game = current_weeks_games.find { |g| g.teams.pluck(:id).sort == team_ids.sort }
 
     if game.present?

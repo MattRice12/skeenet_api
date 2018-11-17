@@ -1,8 +1,12 @@
 class SeasonsController < ApplicationController
   def index
-    seasons = Season.all.includes(:games)
+    begin
+      seasons = Season.all.includes(:games)
 
-    render json: seasons
+      render json: seasons
+    rescue
+      render json: { error: INDEX_ERROR, status: 500 }
+    end
   end
 
   def show
