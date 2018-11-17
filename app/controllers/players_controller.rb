@@ -68,7 +68,7 @@ class PlayersController < ApplicationController
     if player.destroy
       return render json: { message: "Player destroyed!" }
     end
-    return render json: { error: player.errors.full_error_messages, status: 404 }
+    render json: { error: player.errors.full_error_messages, status: 404 }
   end
 
   private
